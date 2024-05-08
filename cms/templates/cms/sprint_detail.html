@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}جزئیات اسپرینت "{{ sprint.name }}"{% endblock %}
+
+{% block content %}
+    <h2>جزئیات اسپرینت "{{ sprint.name }}" - پروژه "{{ project.name }}"</h2>
+
+    <p>شرح: {{ sprint.description }}</p>
+    <p>تاریخ شروع: {{ sprint.start_date|date }}</p>
+    <p>تاریخ پایان: {{ sprint.end_date|date }}</p>
+
+    <h3>تسک های اسپرینت</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>عنوان</th>
+                <th>شرح</th>
+                <th>اولویت</th>
+                <th>وضعیت</th>
+                <th>تاریخ تحویل</th>
+                <th>عملیات</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks.all %}
+                <tr>
+                    <td>{{ task.title }}</td>
+                    <td>{{ task.description }}</td>
+                    <td>{{ task.priority }}</td>
+                    <td>{{ task.status }}</td>
+                    <td>{{ task.due_date|date }}</td>
+                    <td>
+                        <a href="{% url 'task_detail_view' project.id sprint.id task.id %}" class="btn btn-info">جزئیات</a>
+                        <a href="{% url 'edit_task_view' project.id sprint.id task.id %}" class="btn btn-warning">ویرایش</a>
+                        <a href="{% url 'delete_task_view' project.id sprint.id task.id %}" class="btn btn-danger">حذف</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>ایجاد تسک جدید</h3>
+    <a href="{% url 'create_task_view' project.id sprint.id %}" class="btn btn-success">ایجاد تسک جدید</a>
+{% endblock %}

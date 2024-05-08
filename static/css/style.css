@@ -1,0 +1,33 @@
+/* style.css */
+
+/* Add styles for sidebar */
+#sidebar {
+    height: calc(100vh - 80px); /* Adjust height based on the header height */
+    position: fixed;
+    top: 80px; /* Set top position equal to header height */
+    left: 0;
+    z-index: 1000;
+    overflow-x: hidden;
+    transition: width 0.5s;
+}
+
+/* Add styles for sidebar toggle button */
+#toggleSidebar,
+#toggleMobileMenu {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1001;
+}
+
+/* Add styles for list items */
+#sidebar ul li {
+    margin-bottom: 10px;
+}
+
+/* Responsive styles */
+@media (max-width: 767px) {
+    #toggleSidebar {
+        display: none;
+    }
+}

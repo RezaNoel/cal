@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}ویرایش تسک "{{ task.title }}"{% endblock %}
+
+{% block content %}
+    <h2>ویرایش تسک "{{ task.title }}" - اسپرینت "{{ sprint.name }}" - پروژه "{{project.name}}"</h2>
+
+    {% if form.errors %}
+        <p class="error">لطفا خطاهای زیر را اصلاح کنید:</p>
+        <ul class="error">
+            {% for error in form.errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="title">عنوان تسک:</label>
+            {{ form.title }}
+        </div>
+        <div class="form-group">
+            <label for="description">شرح تسک:</label>
+            {{ form.description }}
+        </div>
+        <div class="form-group">
+            <label for="priority">اولویت:</label>
+            {{ form.priority }}
+        </div>
+        <div class="form-group">
+            <label for="status">وضعیت:</label>
+            {{ form.status }}
+        </div>
+        <div class="form-group">
+            <label for="due_date">تاریخ تحویل:</label>
+            {{ form.due_date }}
+        </div>
+        <div class="form-group">
+            <label for="assigned_user">کاربر اختصاص داده شده:</label>
+            {{ form.assigned_user }}
+        </div>
+        <button type="submit" class="btn btn-primary">ویرایش تسک</button>
+    </form>
+{% endblock %}

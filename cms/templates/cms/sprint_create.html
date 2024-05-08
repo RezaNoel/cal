@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}ایجاد اسپرینت جدید{% endblock %}
+
+{% block content %}
+    <h2>ایجاد اسپرینت جدید برای پروژه "{{ project.name }}"</h2>
+
+    {% if form.errors %}
+        <p class="error">لطفا خطاهای زیر را اصلاح کنید:</p>
+        <ul class="error">
+            {% for error in form.errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="name">نام اسپرینت:</label>
+            {{ form.name }}
+        </div>
+        <div class="form-group">
+            <label for="description">شرح اسپرینت:</label>
+            {{ form.description }}
+        </div>
+        <div class="form-group">
+            <label for="start_date">تاریخ شروع:</label>
+            {{ form.start_date }}
+        </div>
+        <div class="form-group">
+            <label for="end_date">تاریخ پایان:</label>
+            {{ form.end_date }}
+        </div>
+        <button type="submit" class="btn btn-primary">ایجاد اسپرینت</button>
+    </form>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}جزئیات تسک "{{ task.title }}"{% endblock %}
+
+{% block content %}
+    <h2>جزئیات تسک "{{ task.title }}" - اسپرینت "{{ sprint.name }}" - پروژه "{{project.name}}"</h2>
+
+    <p>شرح: {{ task.description }}</p>
+    <p>اولویت: {{ task.priority }}</p>
+    <p>وضعیت: {{ task.status }}</p>
+    <p>تاریخ تحویل: {{ task.due_date|date }}</p>
+    {% if task.assigned_user %}
+        <p>کاربر اختصاص داده شده: {{ task.assigned_user.username }}</p>
+    {% else %}
+        <p>کاربر اختصاص داده نشده است.</p>
+    {% endif %}
+
+    <h3>عملیات</h3>
+    <a href="{% url 'edit_task_view' project.id sprint.id task.id %}" class="btn btn-warning">ویرایش</a>
+    <a href="{% url 'delete_task_view' project.id sprint.id task.id %}" class="btn btn-danger">حذف</a>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}جزئیات پروژه "{{ project.name }}"{% endblock %}
+
+{% block content %}
+    <h2>جزئیات پروژه "{{ project.name }}"</h2>
+
+    <p>شرح: {{ project.description }}</p>
+    <p>تاریخ شروع: {{ project.start_date|date }}</p>
+    <p>تاریخ پایان: {{ project.end_date|date }}</p>
+
+    <h3>اسپرینت های پروژه</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>نام</th>
+                <th>شرح</th>
+                <th>تاریخ شروع</th>
+                <th>تاریخ پایان</th>
+                <th>عملیات</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sprint in sprints.all %}
+                <tr>
+                    <td>{{ sprint.name }}</td>
+                    <td>{{ sprint.description }}</td>
+                    <td>{{ sprint.start_date|date }}</td>
+                    <td>{{ sprint.end_date|date }}</td>
+                    <td>
+                        <a href="{% url 'sprint_detail_view' project.id sprint.id %}" class="btn btn-info">جزئیات</a>
+                        <a href="{% url 'task_list_view' project.id sprint.id %}" class="btn btn-primary">تسک ها</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>ایجاد اسپرینت جدید</h3>
+    <a href="{% url 'create_sprint_view' project.id %}" class="btn btn-success">ایجاد اسپرینت جدید</a>
+{% endblock %}
