@@ -1,11 +1,15 @@
-// Sample project data (replace with your actual data fetching)
-const projects = [
-  {
-    name: "Project 1",
-    description: "This is a sample project description.",
-    startDate: "2024-05-01",
-    endDate: "2024-05-31",
-  },
-  {
-    name: "Project 2",
-    description: "Another sample project description.",
+
+function limitDescription() {
+    const descriptionTextarea = document.getElementById('description');
+    console.log(descriptionTextarea)
+    const maxChars = 100; // Set the maximum character limit
+
+    if (descriptionTextarea.textContent.length > maxChars) {
+      // Truncate the text
+      descriptionTextarea.textContent = descriptionTextarea.textContent.substring(0, maxChars);
+
+      // Add an ellipsis to indicate truncated text
+      descriptionTextarea.textContent += '...';
+    }
+  }
+

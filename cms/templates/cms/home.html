@@ -5,16 +5,31 @@
 
 {% block content %}
 
-
 <div class="bg-center bg-no-repeat bg-cover my_img" style="background-image: url({% static 'img/background/jungle.jpg' %});">
     <div class="flex justify-center items-center h-screen">
         <div class="container">
-            <h1 class="text-2xl font-bold mb-8">Welcome to the {{ cms_name }} CMS!</h1>
+
+            <h2>Login</h2>
             <form method="post">
                 {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit" class="mt-4">Login</button>
+                {{ form_login.as_p }}
+                <button type="submit" class="mt-4" name="login">Login</button>
             </form>
+
+            <h2>Register</h2>
+            <form method="post">
+                {% csrf_token %}
+                {{ form_register.as_p }}
+                <button type="submit" class="mt-4">Register</button>
+            </form>
+
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li class="{{ message.tags }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
         </div>
     </div>
 </div>

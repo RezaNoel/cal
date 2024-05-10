@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from .forms import CustomAuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib import messages
 import os
 from .models import Project, Sprint, Task
 from .forms import ProjectForm, SprintForm, TaskForm
@@ -11,28 +13,44 @@ from django.contrib.auth.decorators import login_required
 
 def home(request):
     if request.method == 'POST':
-        form = CustomAuthenticationForm(request, request.POST)
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            user = authenticate(request, username=username, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect('project_list_view')  # Redirect to dashboard or any other page
+        if 'login' in request.POST:  # Check if login button is submitted
+            form = AuthenticationForm(request, request.POST)
+            if form.is_valid():
+                username = form.cleaned_data['username']
+                password = form.cleaned_data['password']
+                user = authenticate(request, username=username, password=password)
+                if user is not None:
+                    login(request, user)
+                    return redirect('project_list_view')  # Redirect to dashboard or any other page
+                else:
+                    messages.error(request, 'Invalid username or password.')  # Display error message
+        else:  # Registration form submitted
+            form = UserCreationForm(request.POST)
+            if form.is_valid():
+                form.save()  # Save the new user
+                messages.success(request, 'You have been registered successfully!')
+                return redirect('project_list_view')  # Redirect to login page after successful registration
     else:
-        form = CustomAuthenticationForm()
+        form_login = AuthenticationForm()
+        form_register = UserCreationForm()
 
     cms_name = os.getenv('CMS_NAME')
-    return render(request, 'cms/home.html', {'form': form,'cms_name':cms_name})
-
-def panel(request):
-    return render(request, 'cms/panel.html')
-
+    return render(request, 'cms/home.html', {
+        'form_login': form_login,
+        'form_register': form_register,
+        'cms_name': cms_name,
+    })
 @login_required
 def project_list_view(request):
     projects = Project.objects.all()
+    sprints = Sprint.objects.all()
+    tasks = Task.objects.all()
+    def count_sprint(project):
+        return sprints.objects.filter(project=project).count()
     context = {
         'projects': projects,
+        'sprints': sprints,
+        'tasks': tasks,
     }
     return render(request, 'cms/project_list.html', context)
 

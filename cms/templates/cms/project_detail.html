@@ -24,7 +24,7 @@
             {% for sprint in sprints.all %}
                 <tr>
                     <td>{{ sprint.name }}</td>
-                    <td>{{ sprint.description }}</td>
+                    <td >{{ sprint.description }}</td>
                     <td>{{ sprint.start_date|date }}</td>
                     <td>{{ sprint.end_date|date }}</td>
                     <td>
@@ -38,4 +38,6 @@
 
     <h3>ایجاد اسپرینت جدید</h3>
     <a href="{% url 'create_sprint_view' project.id %}" class="btn btn-success">ایجاد اسپرینت جدید</a>
+    {% include 'include/footer.html' %}
+
 {% endblock %}

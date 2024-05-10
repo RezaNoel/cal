@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}ادیت پروژه "{{project.name}}"{% endblock %}
+
+{% block content %}
+  <h1>Edit Project</h1>
+
+  <form method="post">
+    {% csrf_token %}  <fieldset>
+      <legend>Project Details</legend>
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" value="{{ project.name }}">
+      <br>
+      <label for="description">Description:</label>
+      <textarea id="description" name="description" >{{ project.description }}</textarea>
+      <br>
+      <label for="start_date">Start Date:</label>
+      <input type="date" id="start_date" name="start_date" value="{{ project.start_date|date }}">  <br>
+      <label for="end_date">End Date:</label>
+      <input type="date" id="end_date" name="end_date" value="{{ project.end_date|date }}">
+      <br>
+      <input type="submit" value="Save Changes">
+    </fieldset>
+  </form>
+
+{% endblock %}

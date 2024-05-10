@@ -1,39 +1,44 @@
-
 {% extends 'newbase.html' %}
+{% load project_tags %}
 {% block content %}
 
-  <header class="header">
-    <h1>List of Projects</h1>
-    <a href="{% url 'create_project_view' %}" class="create-btn">Create New</a>
-  </header>
-  <section class="table-container">
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Description</th>
-          <th>Start Date</th>
-          <th>End Date</th>
-          <th>Operations</th>
-        </tr>
-      </thead>
-      <tbody>
-      {% for project in projects %}
-                <tr>
-                    <td >{{ project.name }}</td>
-                    <td>{{ project.description }}</td>
-                    <td>{{ project.start_date|date }}</td>
-                    <td>{{ project.end_date|date }}</td>
-                    <td>
-                        <a href="{% url 'project_detail_view' project.id %}" class="neumorphic-btn details">Details</a>
-                        <a href="{% url 'sprint_list_view' project.id %}" class="neumorphic-btn sprints">Sprints</a>
-                        <a href="{% url 'delete_project_view' project.id%}" class="neumorphic-btn delete">Delete</a>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-  </section>
+<header class="header">
+  <h1>لیست پروژه ها</h1>
+  <a href="{% url 'create_project_view' %}" class="create-btn">ایجاد جدید</a>
+</header>
 
+<section class="project-cards">
+  {% for project in projects %}
+    <div class="project-card">
+      <div class="project-card-header">
+        <h2>{{ project.name }}</h2>
+        <div class="project-card-dates">
+          <span>تاریخ شروع: {{ project.start_date|date }}</span>
+          <span>تاریخ پایان: {{ project.end_date|date }}</span>
+        </div>
+      </div>
+        <div class="project-content">
+            <div class="project-card-description">
+        <p id="description" name="description" oninput="limitDescription()">{{ project.description }}</p>
+      </div>
+
+      <div class="project-card-details">
+
+        <ul class="project-card-info">
+          <li>تعداد اسپرینت ها: {% get_sprint_count project %}</li>
+          <li>تعداد تسک ها: {% get_task_count project %}</li>
+        </ul>
+
+        <div class="project-card-actions">
+          <a href="{% url 'project_detail_view' project.id %}" class="neumorphic-btn details">جزئیات</a>
+          <a href="{% url 'sprint_list_view' project.id %}" class="neumorphic-btn sprints">اسپرینت ها</a>
+          <a href="{% url 'delete_project_view' project.id%}" class="neumorphic-btn delete">حذف</a>
+        </div>
+      </div>
+        </div>
+
+    </div>
+  {% endfor %}
+</section>
+{% include 'include/footer.html' %}
 {% endblock %}
-
